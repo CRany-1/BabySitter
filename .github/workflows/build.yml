@@ -6,7 +6,11 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout BabySitter
+      uses: actions/checkout@v4
+
+    - name: Clone JUCE
+      run: git clone https://github.com/juce-framework/JUCE.git --branch 7.0.5 --depth 1 JUCE
 
     - name: Configure CMake
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
