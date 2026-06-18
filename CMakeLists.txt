@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.22)
-cmake_policy(SET CMP0000 NEW)
+cmake_minimum_required(VERSION 3.15)
 project(BabySitter VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 自动下载 JUCE
 include(FetchContent)
 FetchContent_Declare(
     JUCE
@@ -13,6 +13,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(JUCE)
 
+# 创建插件目标
 juce_add_plugin(BabySitter
     COMPANY_NAME "MyCompany"
     PLUGIN_MANUFACTURER_CODE Juce
@@ -32,4 +33,10 @@ target_sources(BabySitter PRIVATE
     PluginProcessor.cpp
     PluginEditor.h
     PluginEditor.cpp
+)
+
+# 关键修复：显式告诉编译器去 JUCE 的源码目录寻找头文件
+target_include_directories(BabySitter PRIVATE
+    ${juce_SOURCE_DIR}
+    ${juce_SOURCE_DIR}/modules
 )
